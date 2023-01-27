@@ -17,8 +17,9 @@
 <body>
     <div>
         <form action="/login" method="POST">
-            <h1><?= session()->getFlashdata('msg') ?></h1>
-            <input type="text" name="email">
+            <h1><?= session()->getFlashdata('err-login-password') ?></h1>
+            <h1><?= session()->getFlashdata('err-login-username') ?></h1>
+            <input type="text" name="username">
             <input type="password" name="password">
             <button>login</button>
         </form>

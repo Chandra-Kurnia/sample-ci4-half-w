@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Ini dokumen ges</h1>
+    <h1>Welcome back <?= session()->get('email') ?></h1>
+    <form action="/logout" method="post">
+        <button type="submit">logout</button>
+    </form>
 </body>
 </html>

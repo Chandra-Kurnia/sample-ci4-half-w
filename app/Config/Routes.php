@@ -31,9 +31,13 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 // route without login
-$routes->get('/login', 'Login::index');
+$routes->get('/login', 'Login::index', ['filter' => 'loginGuard']);
 $routes->post('/login', 'Login::save');
-$routes->get('/register', 'Register::index');
+$routes->get('/register', 'Register::index', ['filter' => 'loginGuard']);
+$routes->post('/logout', 'Login::logout');
+
+// route with login
+$routes->get('/', 'Dashboard', ['filter' => 'authGuard']);
 
 /*
  * --------------------------------------------------------------------

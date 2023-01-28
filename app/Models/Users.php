@@ -6,6 +6,7 @@ class Users extends Model{
     protected $table = 'users';
     
     protected $allowedFields = [
+        'user_id',
         'username',
         'password',
         'role_id',

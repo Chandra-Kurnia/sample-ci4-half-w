@@ -2,11 +2,11 @@
 
 <?= $this->section('content') ?>
 <form action="/login" method="POST">
-    <!-- <?php if (session()->getFlashdata('err-login')) : ?>
+    <?php if (session()->getFlashdata('err-login')) : ?>
         <div class="alert alert-danger" role="alert">
             <?= session()->getFlashdata('err-login') ?>
         </div>
-    <?php endif; ?> -->
+    <?php endif; ?>
 
     <?php if (isset($validation)) : ?>
         <div class="alert alert-danger">

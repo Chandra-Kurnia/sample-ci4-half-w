@@ -12,6 +12,7 @@ class Employees extends Model{
         'phone_number',
         'email',
         'date_of_birth',
+        'gender',
         'sallary',
         'created_at',
         'udpated_at',

@@ -8,55 +8,59 @@ class Login extends BaseController
 {
     public function index()
     {
-        helper(['form']);
         $data = [];
         return view('auth/login', $data);
     }
 
     public function save()
     {
-
+        $session = session();
+        $session->removeTempdata('err-login');
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
 
-        helper(['form']);
         $rules = [
             'username'      => 'required',
             'password'      => 'required',
         ];
+
+        $data = [
+            'dataForm' => [
+                'username' => $username,
+                'password' => $password
+            ]
+        ];
         
-        $session = session();
         if ($this->validate($rules)) {
             $userModel = new Users();
-            $data = $userModel->where('username', $username)->join('roles', 'roles.role_id = users.role_id', 'left')->first();
+            $user = $userModel->where('username', $username)->join('roles', 'roles.role_id = users.role_id', 'left')->first();
 
-            if ($data) {
-                $pass_enc = $data['password'];
+            if ($user) {
+                $pass_enc = $user['password'];
                 $authenticatePassword = password_verify($password, $pass_enc);
                 // echo '<pre>' , var_dump($data) , '</pre>';
                 // die;
                 if ($authenticatePassword) {
                     $ses_data = [
-                        'user_id' => $data['user_id'],
-                        'username' => $data['username'],
-                        'status' => $data['status'],
-                        'is_update' => $data['is_update'],
-                        'image' => $data['image'],
-                        'role_name' => $data['role_name'],
+                        'user_id' => $user['user_id'],
+                        'username' => $user['username'],
+                        'status' => $user['status'],
+                        'is_update' => $user['is_update'],
+                        'image' => $user['image'],
+                        'role_name' => $user['role_name'],
                         'IS_LOGIN' => true
                     ];
                     $session->set($ses_data);
                     return redirect()->to('/');
                 } else {
-                    $session->setFlashdata('err-login', 'Your password is incorrect');
-                    return redirect()->to('/login');
+                    $session->setFlashdata('err-login', 'Your password is incorrect !');
+                    return view('auth/login', $data);
                 }
             } else {
-                $session->setFlashdata('err-login', 'Username Not Found');
-                return redirect()->to('/login');
+                $session->setFlashdata('err-login', 'Username not found !');
+                return view('auth/login', $data);
             }
         } else {
-            $session->setFlashdata('err-login', 'required');
             $data['validation'] = $this->validator;
             return view('auth/login', $data);
         }

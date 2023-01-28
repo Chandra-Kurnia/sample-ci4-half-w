@@ -39,7 +39,7 @@ $routes->post('/logout', 'Login::logout');
 // route with login
 $routes->get('/', 'Dashboard', ['filter' => 'authGuard']);
 $routes->get('/manageUser', 'Manage::manageUser', ['filter' => 'authGuard']);
-$routes->post('/manageUser', 'Manage::addUser', ['filter' => 'authGuard']);
+$routes->post('/manageUser/add', 'Manage::addUser', ['filter' => 'authGuard']);
 $routes->get('/manageUser/get/(:any)', 'Manage::getById/$1', ['filter' => 'authGuard']);
 $routes->put('/manageUser/(:any)', 'Manage::updateUser/$1', ['filter' => 'authGuard']);
 $routes->delete('/manageUser/delete/(:any)', 'Manage::deleteUser/$1', ['filter' => 'authGuard']);

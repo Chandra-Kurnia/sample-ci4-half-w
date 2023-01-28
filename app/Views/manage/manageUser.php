@@ -61,8 +61,8 @@
                         <?= $validation->listErrors() ?>
                     </div>
                 <?php endif; ?>
-                <form action="/manageUser/<?php isset($userEdit) ? $userEdit['user_id'] : '' ?>" method="post">
-                    <input type="hidden" name="_method" value="put">
+                <form action="/manageUser/add" method="post">
+                    <!-- <input type="hidden" name="_method" value="put"> -->
                     <div class="row">
 
                         <div class="col-2 d-flex align-items-center">

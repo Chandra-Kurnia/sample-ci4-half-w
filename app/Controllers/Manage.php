@@ -40,10 +40,12 @@ class Manage extends BaseController
             return redirect()->to('/manageUser');
         }else{
             $data = [
-                'allUser' => $userModel->join('roles', 'roles.role_id = users.role_id', 'left')->findAll(),
+                // 'allUser' => $userModel->join('roles', 'roles.role_id = users.role_id', 'left')->findAll(),
                 'validation' => $this->validator
             ];
             return view('manage/manageUser', $data);
+            // return redirect()->to('/manageUser');
+            // echo "tes";
         }
     }
 

@@ -33,7 +33,7 @@
                                     <?php if (session()->get('role_name') === 'superuser') : ?>
                                         <td>
                                             ubah status, hapus user, ubah role, edit
-                                            <form action="/manageUser/get/<?= $user['user_id'] ?>" method="get">
+                                            <form action="/manageUser/<?= $user['user_id'] ?>" method="get">
                                                 <button class="btn btn-primary">Edit</button>
                                             </form>
                                             <form action="/manageUser/delete/<?= $user['user_id'] ?>" method="post">
@@ -53,7 +53,7 @@
     <div class="col-lg-4 col-sm-12 mt-sm-3 mt-lg-0">
         <div class="card">
             <div class="card-header">
-                <h3><?= isset($userEdit) ? 'Update User' : 'Add User' ?></h3>
+                <h3><?= isset($isEdit) ? 'Update User' : 'Add User' ?></h3>
             </div>
             <div class="card-body">
                 <?php if (isset($validation)) : ?>
@@ -61,35 +61,38 @@
                         <?= $validation->listErrors() ?>
                     </div>
                 <?php endif; ?>
-                <form action="/manageUser/add" method="post">
-                    <!-- <input type="hidden" name="_method" value="put"> -->
+                <form action="/manageUser<?= isset($isEdit) ? '/' . $dataForm['user_id'] : '' ?>" method="post">
+                    <?php if (isset($isEdit)) : ?>
+                        <input type="hidden" name="_method" value="put">
+                    <?php endif; ?>
                     <div class="row">
 
                         <div class="col-2 d-flex align-items-center">
                             <span class="form-text">Username</span>
                         </div>
                         <div class="col-10 d-flex align-items-center">
-                            <input type="text" class="form-control" name="username" value="<?= isset($userEdit) ? $userEdit['username'] : '' ?>">
-                            <!-- <input type="hidden" value="<?= isset($userEdit) ? $userEdit['user_id'] : '' ?>"> -->
+                            <input type="text" class="form-control" name="username" value="<?= isset($dataForm) ? $dataForm['username'] : '' ?>">
                         </div>
 
-                        <div class="col-2 d-flex align-items-center mt-2">
-                            <span class="form-text">Password</span>
-                        </div>
-                        <div class="col-10 d-flex align-items-center mt-2">
-                            <input type="password" class="form-control" name="password">
-                        </div>
+                        <?php if (!isset($isEdit)) : ?>
+                            <div class="col-2 d-flex align-items-center mt-2">
+                                <span class="form-text">Password</span>
+                            </div>
+                            <div class="col-10 d-flex align-items-center mt-2">
+                                <input type="password" class="form-control" name="password">
+                            </div>
+                        <?php endif; ?>
 
                         <div class="col-2 d-flex align-items-center mt-2">
                             <span class="form-text">Role</span>
                         </div>
                         <div class="col-10 d-flex align-items-center mt-2">
                             <select class="form-select" aria-label="Default select example" name="role">
-                                <?php if (isset($userEdit) && $userEdit['role_id'] == '1') : ?>
+                                <?php if (isset($dataForm) && $dataForm['role_id'] == '1') : ?>
                                     <option value="">--Select Role--</option>
                                     <option value="1" selected>Superuser</option>
                                     <option value="2">User</option>
-                                <?php elseif (isset($userEdit) && $userEdit['role_id'] == '2') : ?>
+                                <?php elseif (isset($dataForm) && $dataForm['role_id'] == '2') : ?>
                                     <option value="">--Select Role--</option>
                                     <option value="1">Superuser</option>
                                     <option value="2" selected>User</option>
@@ -106,7 +109,7 @@
                         </div>
                         <div class="col-10 d-flex align-items-center mt-2">
                             <div class="row w-100">
-                                <?php if (isset($userEdit) && $userEdit['status'] == 'active') : ?>
+                                <?php if (isset($dataForm) && $dataForm['status'] == 'active') : ?>
                                     <div class="col-3">
                                         <input type="radio" class="form-check-input" name="status" value="active" id="status_active" checked>
                                         <label for="status_active">Active</label>
@@ -115,7 +118,7 @@
                                         <input type="radio" class="form-check-input" name="status" value="notActive" id="status_not_active">
                                         <label for="status_not_active">Not Active</label>
                                     </div>
-                                <?php elseif (isset($userEdit) && $userEdit['status'] == 'notActive') : ?>
+                                <?php elseif (isset($dataForm) && $dataForm['status'] == 'notActive') : ?>
                                     <div class="col-3">
                                         <input type="radio" class="form-check-input" name="status" value="active" id="status_active">
                                         <label for="status_active">Active</label>
@@ -140,9 +143,9 @@
                         <div class="col-2 d-flex align-items-center mt-2">
                         </div>
                         <div class="col-10 d-flex align-items-center mt-2">
-                            <button type="submit" class="btn btn-primary w-100"><?= isset($userEdit) ? 'Update User' : 'Save User' ?></button>
+                            <button type="submit" class="btn btn-primary w-100"><?= isset($isEdit) ? 'Update User' : 'Save User' ?></button>
                         </div>
-                        <?php if (isset($userEdit)) : ?>
+                        <?php if (isset($isEdit)) : ?>
                             <div class="col-2 d-flex align-items-center mt-2">
                             </div>
                             <div class="col-10 d-flex align-items-center mt-2">
